@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Scraped Data Display</title>
+    <style>
+        /* Add your CSS styles here */
+        /* For example: */
+        body {
+            background-color: #6A0DAD; /* Purple background color */
+            color: #ffffff; /* White text color */
+            font-family: Arial, sans-serif; /* Font style */
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            text-align: center;
+            padding: 20px 0;
+        }
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            margin: 20px auto;
+            background-color: #ffffff; /* White table background color */
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 12px;
+            position: relative;
+        }
+        th {
+            background-color: #6A0DAD; /* Purple header background color */
+            color: #ffffff; /* Header text color */
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2; /* Alternate row background color */
+        }
+        td {
+            font-weight: bold; /* Make the data bold */
+            color: #6A0DAD; /* Purple data color */
+        }
+        footer {
+            background-color: #6A0DAD; /* Purple footer background color */
+            color: #ffffff; /* Footer text color */
+            text-align: center;
+            padding: 20px 0;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+        footer a {
+            color: #ffffff; /* Footer link color */
+            text-decoration: none;
+        }
+        
+    </style>
+</head>
+<body>
+    <h1>Scraped Data For Lands On Sale In Kenya</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Column</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in data %}
+                <tr>
+                    <td>{{ item['column'] }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <footer>
+        For more information contact us:
+        <a href="tel:+254716485037">+254716485037</a> or
+        <a href="mailto:kenkaruma.kk@gmail.com">Email us: kenkaruma.kk@gmail.com</a>
+    </footer>
+</body>
+</html>
+

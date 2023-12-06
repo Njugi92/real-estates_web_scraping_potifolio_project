@@ -3,36 +3,34 @@ import pandas as pd
 from bs4 import BeautifulSoup as beauty
 import requests
 
+# Define the path to the csv_data directory
+csv_data_path = "csv_data"
+if not os.path.exists(csv_data_path):
+    os.makedirs(csv_data_path)
+
 url = "https://milikispace.co.ke/projects/"
 all_urls = []
 
-for page in range(1,2):
+for page in range(1, 20):
     next_urls = url + str(page)
     all_urls.append(next_urls)
+
+scraped_data = []  # Store scraped data
 
 for url in all_urls:
     render = requests.get(url)
     the_html = beauty(render.content, "html.parser")
-    #print(the_html)
 
-    scrape = the_html.find_all(class_ = "title")
-    #print(scrape)
-    
-    scraped_data = []
+    scrape = the_html.find_all(class_="title")
+
     for data in scrape:
-        scraped_data.append(data.get_text())
-        #print(data.get_text())
-    #print(scraped_data)    
-    cleaned_data = [data.replace("\n", "") for data in scraped_data]
-    cleaned_data2 = [data.replace("\t", "") for data in cleaned_data]
-    
-    #print(cleaned_data2)
-    clean_data_ = [data.replace("\r", "") for data in cleaned_data2]
-    clean_data_2 = [data.replace("       ", "") for data in clean_data_]
-    #print(clean_data_)
+        scraped_data.append(data.get_text().strip())  # Append cleaned text to the list
 
-    data_2_csv = pd.DataFrame(clean_data_2, columns=["column"])
-    data_2_csv.to_csv("milikispace.csv", mode="a", index=False)
-    print(data_2_csv)
+# Create DataFrame from the scraped data list
+data_2_csv = pd.DataFrame({"column": scraped_data})
 
-    
+csv_filename = os.path.join(csv_data_path, "milikispace.csv")  # Define the path to save the CSV file
+data_2_csv.to_csv(csv_filename, index=False)
+
+print(data_2_csv)
+
