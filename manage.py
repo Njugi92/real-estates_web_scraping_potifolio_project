@@ -43,7 +43,8 @@ def read_csv_data(filename):
     # Read data from the CSV file
     if filename:
         df = pd.read_csv(filename)
-        data = df.to_dict(orient='records')
+        #data = df.to_dict(orient='records')
+        data = df['Property'].tolist()
         print(data) # Add this line to print data
         return data
     else:
