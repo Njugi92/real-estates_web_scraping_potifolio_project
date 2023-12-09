@@ -29,12 +29,12 @@ def scrape_milikispace():
     # Create DataFrame from the scraped data list
     data_2_csv = pd.DataFrame({"column": scraped_data})
 
-    csv_filename = os.path.join(csv_data_path, "milikispace.csv")  # Define the path to save the CSV file
+    csv_filename = os.path.join("csv_data", "milikispace.csv")  # Define the path to save the CSV file
     data_2_csv.to_csv(csv_filename, index=False)
 
-    return data_2_csv
+    #return data_2_csv
 
 if __name__ == "__main__":
     result = scrape_milikispace()
-    print(result)
+    #print(result)
 
