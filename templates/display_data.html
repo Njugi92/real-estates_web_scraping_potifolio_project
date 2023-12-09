@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>Scraped Data Display</title>
     <style>
-        /* Add your CSS styles here */
-        /* For example: */
+        /* CSS styles */
         body {
             background-color: #6A0DAD; /* Purple background color */
             color: #ffffff; /* White text color */
@@ -39,46 +39,80 @@
         }
         td {
             font-weight: bold; /* Make the data bold */
-            color: #6A0DAD; /* Purple data color */
+            color: black; /* Black text color */
         }
-        footer {
-            background-color: #6A0DAD; /* Purple footer background color */
-            color: #ffffff; /* Footer text color */
-            text-align: center;
-            padding: 20px 0;
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-        }
-        footer a {
-            color: #ffffff; /* Footer link color */
-            text-decoration: none;
-        }
-        
     </style>
 </head>
 <body>
-    <h1>Scraped Data For Lands On Sale In Kenya</h1>
-    <table>
+     <h1>Data Display</h1>
+    {% if data %}
+        <ul>
+            {% for item in data %}
+                <li>{{ item.column }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No data available</p>
+    {% endif %}
+
+    <h1>Scraped Data Display</h1>
+    <button id="triggerButton">Trigger Scraper</button> <!-- Button to trigger scraper -->
+
+    <table id="data-table">
         <thead>
+            <!-- Table headers -->
             <tr>
                 <th>Column</th>
             </tr>
         </thead>
         <tbody>
-            {% for item in data %}
-                <tr>
-                    <td>{{ item['column'] }}</td>
-                </tr>
-            {% endfor %}
+            <!-- Table body will be populated with data -->
+            <!-- ... -->
         </tbody>
     </table>
 
     <footer>
-        For more information contact us:
-        <a href="tel:+254716485037">+254716485037</a> or
-        <a href="mailto:kenkaruma.kk@gmail.com">Email us: kenkaruma.kk@gmail.com</a>
+        <!-- Footer content -->
+        <!-- ... -->
     </footer>
+
+    <script>
+        document.getElementById('triggerButton').addEventListener('click', function() {
+            fetch('/trigger_scraper', { method: 'POST' })
+                .then(response => {
+                    if (response.ok) {
+                        alert('Scraper executed successfully!');
+                        return response.json(); // Return the response as JSON
+                    } else {
+                        alert('Error occurred during scraping!');
+                    }
+                })
+                .then(data => {
+                    // Update the table with fetched data
+                    const dataTable = document.getElementById('data-table');
+                    const tableBody = dataTable.getElementsByTagName('tbody')[0];
+                    tableBody.innerHTML = ''; // Clear existing data
+
+                    data.forEach(item => {
+                        const row = document.createElement('tr');
+                        const cell = document.createElement('td');
+                        cell.textContent = item.column; // Assuming 'column' as the key
+                        row.appendChild(cell);
+                        tableBody.appendChild(row);
+                    });
+
+                    // Update last updated timestamp
+                    const updateInfo = document.createElement('div');
+                    updateInfo.textContent = `Last Updated: ${data[data.length - 1].column}`;
+                    updateInfo.style.fontWeight = 'bold'; // Set font weight to bold
+                    updateInfo.style.color = '#000000'; // Set font color to black
+                    dataTable.appendChild(updateInfo);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        });
+    </script>
 </body>
 </html>
 
