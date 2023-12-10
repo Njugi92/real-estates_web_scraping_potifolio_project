@@ -44,7 +44,7 @@ def read_csv_data(filename):
     if filename:
         df = pd.read_csv(filename)
         #data = df.to_dict(orient='records')
-        data = df['title'].tolist()
+        data = df['Column'].tolist()
         print(data) # Add this line to print data
         return data
     else:
